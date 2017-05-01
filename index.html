@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="pl">
+    <head>
+        <meta charset="utf-8">
+        <title>Time Lord</title>
+        <link rel="stylesheet" href="css/index.css">
+    </head>
+    <body>
+        <h1>Timey wimey</h1>
+        <div class="wraper">
+            <ul class="tabs" id="tabs">
+                <li class="tab_active tab_no_active">Stopwatch</li>
+                <li class="tab_no_active">Timer</li>
+            </ul>
+            <div id="tab0" class="page">
+                <h2>Stopwatch</h2>
+                <div class="stoper">
+                    <p id="time">00:00:00:00</p>
+                    <button id="stop" class="display">Stop</button>
+                    <button id="start">Start</button>
+                    <button id="restart">Restart</button>
+                </div>
+                <button id="catch">Catch</button>
+                <div class="scoreboard">
+                    <p>Saved Times:</p>
+                    <ul id="timeList">
+                    </ul>
+                    <button id="clearBoard">Clear the board</button>
+                </div>
+            </div>
+            <div id="tab1" class="page display">
+                <h2>Timer</h2>
+                <div class="stoper">
+                    <p id="time">Time</p>
+                    <button class="display">Stop</button>
+                    <button>Start</button>
+                    <div id="timeLoad" class="timeLoad">
+                        <input type="text" placeholder="Hour">
+                        <input type="text" placeholder="Min">
+                        <input type="text" placeholder="Sek">
+                    </div>
+                    <button>Restart</button>
+                </div>
+            </div>
+        </div>
+    </body>
+    <script src="dontStop.js"></script>
+    <script src="code.js"></script>
+</html>

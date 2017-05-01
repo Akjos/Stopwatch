@@ -1,0 +1,152 @@
+html {
+    background-color: #666666;
+    padding: 0;
+    text-align: center;
+}
+h1 {
+    margin: 50px;
+    font-size: 100px;
+}
+h2 {
+    margin: 15px;
+    font-size: 30px
+}
+li {
+    list-style-type: none;
+}
+ul {
+    padding: 0;
+}
+button {
+    width: 120px;
+    margin: 10px;
+    padding: 5px;
+    border: none;
+    background-color: #04640f;
+    font-size: 40px;
+    cursor: pointer;
+}
+button:focus {
+    outline: none;
+}
+button:active {
+    transform: scale(0.95);
+}
+.wraper {
+    width: 630px;
+    margin: auto;
+    position: relative;
+}
+.tabs {
+    margin: 0;
+    position: absolute;
+    top: -33px;
+}
+.tabs li {
+    width: 150px;
+    padding: 5px;
+    border-radius: 20px 0 0 0;
+    box-sizing: border-box;
+    display: inline-block;
+    cursor: pointer;
+    font-size: 20px;
+}
+.tab_no_active {
+    background-color: #585858;
+}
+.tab_active{
+    background-color: #414141;
+}
+.page {
+    width: 600px;
+    margin: 0 auto;
+    padding: 15px;
+    background-color: #414141;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+}
+.stoper {
+    width: 370px;
+    margin: auto;
+    border: 2px solid black;
+    background: #555555;
+}
+.stoper > :nth-child(2) {
+    background-color: #db1100;
+}
+.stoper button:last-child {
+    width: 100%;
+    margin: 0;
+    background-color: #ffff00;
+}
+.stoper p {
+    margin: 0;
+    font-size: 70px;
+    text-align: center;
+    color: #cccccc;
+}
+.display {
+    display: none;
+}
+.scoreboard {
+    width: 500px;
+    margin: 0 auto;
+    background-color: #594bc3;
+    border: 3px black solid ;
+    color: #000000;
+    text-align: left;
+    font-size: 30px;
+}
+.scoreboard li {
+    padding-left: 15px;
+    position: relative;
+}
+.scoreboard li:first-child {
+    color:#db1100;
+}
+.scoreboard li:nth-child(2n-1) {
+    background-color: #483ab2;
+}
+.scoreboard li button {
+    width: 30px;
+    height: 30px;
+    background-color: transparent;
+    position: absolute;
+    right: 40px;
+}
+.scoreboard li button:after, .scoreboard li button:before {
+    content: "";
+    width: 30px;
+    height: 5px;
+    border-radius: 5px;
+    background-color: #ff0000;
+    position: absolute;
+    left: 0;
+    top: 13px;
+    transform: rotate(45deg);
+}
+.scoreboard li button:before {
+    transform: rotate(-45deg);
+}
+
+.scoreboard button {
+    width: 100%;
+    margin: 0;
+}
+.timeLoad {
+    width: 200px;
+    margin: 5px auto;
+}
+.timeLoad input{
+    width: 60px;
+    height: 40px;
+    padding: 2px;
+    border: none;
+    background-color: #9db536;
+    font-size: 18px;
+    font-weight: 800;
+}
+.timeLoad input:focus {
+    outline: none;
+}
