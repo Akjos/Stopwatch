@@ -19,7 +19,7 @@ function noDisplay() {
         tab.classList.add('display');
     }
 }
-//////// to u góry jest naprawdę cholernie brzydkie ale jakoś dzała odpowiada za zmienianie zakładek na stronie bez przeładowania 
+//////// to u góry jest naprawdę cholernie brzydkie ale jakoś dzała odpowiada za zmienianie zakładek na stronie bez przeładowania (później się tym zjamę)
 var interFace = {
         startBt: document.getElementById('start'),
         stopBt: document.getElementById('stop'),
@@ -105,7 +105,8 @@ var interFace = {
             }
         },
         deleteRecord : function() {
-            this.removeEventListener('click',scoreboard.deleteRecord);//nie wiem jak uniknąć użycia tu scoreboard
+            var that = this;
+            this.removeEventListener('click', that.deleteRecord);//nie wiem jak uniknąć użycia tu scoreboard << już wiem hura ja :/
             var li = this.parentNode;
             li.parentNode.removeChild(li);
         }
@@ -122,3 +123,79 @@ var interFace = {
         }
     };
 document.addEventListener('onload', interFace.init());
+// Tu zaczynam pracę nad Minutnikiem
+var interFaceStoper = {
+    startBt: document.getElementById('startTimer'),
+    resetBt: document.getElementById('resetTimer'),
+    timeLoading: document.getElementById('timeLoad'),
+    tabTime: document.getElementsByTagName('input'),
+    init : function () {
+        this.startBt.addEventListener('click', function () {
+            stoper.start()});
+        this.resetBt.addEventListener('click', function () {
+            stoper.test();});
+    }
+},
+    stoper = {
+        h: 0,
+        m: 0,
+        s: 0,
+        clear: null,
+        start: function () {
+            var time = this.getTime(),
+                that = this;
+            if(this.checkTime(time)) {
+                this.h = time[0] || 0; 
+                this.m = time[1] || 0;
+                this.s = time[2] || 0;
+                this.clear = setInterval( function () {that.counter();}, 1000)
+            };
+        },
+        counter : function () {
+            if(this.s == 0){
+                if(this.m == 0){
+                    if(this.h == 0){
+                        console.log("koniec czasu");
+                        clearInterval(this.clear);
+                    } else {
+                        this.h -= 1;
+                        this.m += 59;
+                        this.s += 59;
+                    }
+                } else {
+                    this.m -= 1;
+                    this.s += 59;
+                }
+            }
+            
+            this.test();
+            this.s -= 1;
+        },
+        checkTime : function (el)  { //metoda sprawdza czy to co podał użytkownik jest poprawną liczbą i czy nie równa się zero
+            var reg = /^\d+$/,
+                marker = true,
+                checkNum = 0;
+            el.forEach(function(el,i){
+                if(reg.test(el) || el == '') {
+//                    el = +(el);
+//                    checkNum += el;
+                    console.log('liczba wczytana'+el);
+                } else 
+                    marker = false;
+            })
+            return (marker);
+        },
+        getTime : function () {            
+            var time = [];
+            for(var i = 0;i < interFaceStoper.tabTime.length;i++){
+                time.push(interFaceStoper.tabTime[i].value);
+                interFaceStoper.tabTime[i].value = '';
+            }
+            return time;
+        },
+        test : function () {
+            console.log(this.h,this.m,this.s);
+        }
+    };
+
+interFaceStoper.init();
