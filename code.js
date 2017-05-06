@@ -64,7 +64,7 @@ var interFace = {
             this.m = 0;
             this.h = 0;
             this.ms = 0;
-            outlook.putInHtml(this.timer, outlook.timerView());
+            outlook.putInHtml(this.timer, outlook.timerView(this.h,this.m,this.s,this.ms));
         },
         counter : function () {
             this.ms++;
@@ -80,7 +80,7 @@ var interFace = {
                 this.m = 0;
                 this.h++;
             }
-            outlook.putInHtml(this.timer, outlook.timerView());
+            outlook.putInHtml(this.timer, outlook.timerView(this.h,this.m,this.s,this.ms));
         }
     },
     scoreboard = { //Obiekt odpowiadający za tablicę wyników
@@ -95,7 +95,7 @@ var interFace = {
         },
         catchTime : function () {
             if(stopwatch.ms+stopwatch.s+stopwatch.m+stopwatch.h != 0) {
-                var node = document.createTextNode(outlook.timerView()),
+                var node = document.createTextNode(outlook.timerView(stopwatch.h,stopwatch.m,stopwatch.s,stopwatch.ms)),
                     li = document.createElement('li'),
                     deleteBt = document.createElement('button');
                 li.appendChild(node);
@@ -112,8 +112,15 @@ var interFace = {
         }
     },
     outlook = { //Obiekt odpowiadający za wygląd stopera
-        timerView : function () {
-        return this.checkLength(stopwatch.h) + ':' + this.checkLength(stopwatch.m) + ':' + this.checkLength(stopwatch.s) + ':' + this.checkLength(stopwatch.ms);
+        timerView : function (h,m,s,ms) {
+            var that = this,
+                check = function() { 
+                if(ms != undefined ) { // Ten if jest po to abym mógł używać widoku mimo tego że nie posiadam milisekund
+                    return ':' + that.checkLength(ms);
+                } else
+                    return ''; 
+            }
+            return this.checkLength(h) + ':' + this.checkLength(m) + ':' + this.checkLength(s) + check();
         },
         putInHtml : function (wher, what) {
             wher.innerHTML = what;
@@ -125,38 +132,54 @@ var interFace = {
 document.addEventListener('onload', interFace.init());
 // Tu zaczynam pracę nad Minutnikiem
 var interFaceStoper = {
-    startBt: document.getElementById('startTimer'),
+    setTimeBt: document.getElementById('setTime'),
+    startTimerBt: document.getElementById('startTimer'),
+    stopTimerBt: document.getElementById('stopTimer'),
     resetBt: document.getElementById('resetTimer'),
     timeLoading: document.getElementById('timeLoad'),
     tabTime: document.getElementsByTagName('input'),
     init : function () {
-        this.startBt.addEventListener('click', function () {
-            stoper.start()});
-        this.resetBt.addEventListener('click', function () {
-            stoper.test();});
+        this.setTimeBt.addEventListener('click', function () { stoper.setTime();});
+        this.resetBt.addEventListener('click', function () { stoper.test();});
+        this.startTimerBt.addEventListener('click', function () { stoper.start();});
+        this.stopTimerBt.addEventListener('click', function () { stoper.stop();});
     }
 },
     stoper = {
+        timer: document.getElementById('meter'),
         h: 0,
         m: 0,
         s: 0,
         clear: null,
-        start: function () {
-            var time = this.getTime(),
-                that = this;
+        setTime : function () {
+            var time = this.getTime();
             if(this.checkTime(time)) {
-                this.h = time[0] || 0; 
-                this.m = time[1] || 0;
-                this.s = time[2] || 0;
-                this.clear = setInterval( function () {that.counter();}, 1000)
-            };
+                this.h = +(time[0]); 
+                this.m = +(time[1]);
+                this.s = +(time[2]);
+                outlook.putInHtml(this.timer, outlook.timerView(this.h,this.m,this.s));
+            }
+        },
+        start : function () {
+            var that = this;
+            this.clear = setInterval( function () {that.counter();}, 1000);
+            interFaceStoper.stopTimerBt.classList.remove('display');
+            interFaceStoper.startTimerBt.classList.add('display');
+        },
+        stop : function () {
+            clearInterval(this.clear);
+            interFaceStoper.startTimerBt.classList.remove('display');
+            interFaceStoper.stopTimerBt.classList.add('display');
         },
         counter : function () {
             if(this.s == 0){
                 if(this.m == 0){
                     if(this.h == 0){
-                        console.log("koniec czasu");
+                        outlook.putInHtml(this.timer, 'Koniec czasu');
                         clearInterval(this.clear);
+                        interFaceStoper.startTimerBt.classList.remove('display');
+                        interFaceStoper.stopTimerBt.classList.add('display');
+                        return false;
                     } else {
                         this.h -= 1;
                         this.m += 59;
@@ -167,21 +190,16 @@ var interFaceStoper = {
                     this.s += 59;
                 }
             }
-            
-            this.test();
+            outlook.putInHtml(this.timer, outlook.timerView(this.h,this.m,this.s));
             this.s -= 1;
         },
         checkTime : function (el)  { //metoda sprawdza czy to co podał użytkownik jest poprawną liczbą i czy nie równa się zero
             var reg = /^\d+$/,
                 marker = true,
                 checkNum = 0;
-            el.forEach(function(el,i){
-                if(reg.test(el) || el == '') {
-//                    el = +(el);
-//                    checkNum += el;
-                    console.log('liczba wczytana'+el);
-                } else 
-                    marker = false;
+            el.forEach(function(el) {
+                if(!(reg.test(el) || el == '')) 
+                   marker = false;
             })
             return (marker);
         },
