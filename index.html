@@ -16,35 +16,43 @@
                 <h2>Stopwatch</h2>
                 <div class="stoper">
                     <p id="time">00:00:00:00</p>
-                    <button id="stop" class="display">Stop</button>
-                    <button id="start">Start</button>
-                    <button id="restart">Restart</button>
+                    <button id="stop" class="mainBt display stopBt">Stop</button>
+                    <button id="start" class="mainBt">Start</button>
+                    <button id="restart" class="mainBt clearBt">Restart</button>
                 </div>
-                <button id="catch">Catch</button>
+                <button id="catch" class="mainBt">Catch</button>
                 <div class="scoreboard">
                     <p>Saved Times:</p>
-                    <ul id="timeList">
-                    </ul>
-                    <button id="clearBoard">Clear the board</button>
+                    <ul id="timeList"></ul>
+                    <button class="mainBt clearBt" id="clearBoard">Clear the board</button>
                 </div>
             </div>
             <div id="tab1" class="page display">
                 <h2>Timer</h2>
                 <div class="stoper">
-                    <p id="meter">Time</p>
-                    <button id="stopTimer" class="display">Stop</button>
-                    <button id="startTimer">Play</button>
-                    <button id="setTime">Set</button>
+                    <div>
+                        <p id="meterText">00:00:00</p>
+                        <div id="consoleEndTime" class="alarmModal display">
+                            <p>Allert</p>
+                            <button id="stopSound" class="stopSound"></button>
+                            <button class="napBt">+ 5 min</button>
+                            <button class="closeBt"></button>
+                        </div>
+                    </div>
+                    <button id="stopTimer" class="mainBt display stopBt">Stop</button>
+                    <button id="startTimer" class="mainBt">Play</button>
+                    <button id="setTime" class="mainBt">Set</button>
                     <form id="timeLoad" class="timeLoad">
                         <input type="text" placeholder="Hour">
                         <input type="text" placeholder="Min">
                         <input type="text" placeholder="Sek">
+                        <button type="reset" class="mainBt clearBt">Clear</button>
                     </form>
-                    <button id="resetTimer">Restart</button>
+                    <button id="resetTimer" class="mainBt clearBt">Restart</button>
                 </div>
             </div>
         </div>
     </body>
-    <script src="dontStop.js"></script>
+<!--    <script src="dontStop.js"></script>-->
     <script src="code.js"></script>
 </html>

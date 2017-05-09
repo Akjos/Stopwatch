@@ -98,6 +98,7 @@ var interFace = {
                 var node = document.createTextNode(outlook.timerView(stopwatch.h,stopwatch.m,stopwatch.s,stopwatch.ms)),
                     li = document.createElement('li'),
                     deleteBt = document.createElement('button');
+                deleteBt.classList.add('closeBt');
                 li.appendChild(node);
                 li.appendChild(deleteBt);
                 this.timeList.appendChild(li);
@@ -138,19 +139,22 @@ var interFaceStoper = {
     resetBt: document.getElementById('resetTimer'),
     timeLoading: document.getElementById('timeLoad'),
     tabTime: document.getElementsByTagName('input'),
+    consoleEndTime: document.getElementById('consoleEndTime'),
+    stopAlarmBt: document.getElementById('stopSound'),
     init : function () {
         this.setTimeBt.addEventListener('click', function () { stoper.setTime();});
-        this.resetBt.addEventListener('click', function () { stoper.test();});
+        this.resetBt.addEventListener('click', function () { stoper.resetEveryThing();});
         this.startTimerBt.addEventListener('click', function () { stoper.start();});
         this.stopTimerBt.addEventListener('click', function () { stoper.stop();});
     }
 },
     stoper = {
-        timer: document.getElementById('meter'),
+        timer: document.getElementById('meterText'),
         h: 0,
         m: 0,
         s: 0,
         clear: null,
+        countSet: false,
         setTime : function () {
             var time = this.getTime();
             if(this.checkTime(time)) {
@@ -158,13 +162,16 @@ var interFaceStoper = {
                 this.m = +(time[1]);
                 this.s = +(time[2]);
                 outlook.putInHtml(this.timer, outlook.timerView(this.h,this.m,this.s));
+                this.countSet = true;
             }
         },
         start : function () {
-            var that = this;
-            this.clear = setInterval( function () {that.counter();}, 1000);
-            interFaceStoper.stopTimerBt.classList.remove('display');
-            interFaceStoper.startTimerBt.classList.add('display');
+            if (this.countSet) {
+                var that = this;
+                this.clear = setInterval( function () {that.counter();}, 1000);
+                interFaceStoper.stopTimerBt.classList.remove('display');
+                interFaceStoper.startTimerBt.classList.add('display');
+            }
         },
         stop : function () {
             clearInterval(this.clear);
@@ -175,33 +182,36 @@ var interFaceStoper = {
             if(this.s == 0){
                 if(this.m == 0){
                     if(this.h == 0){
-                        outlook.putInHtml(this.timer, 'Koniec czasu');
                         clearInterval(this.clear);
+                        this.alarm();
                         interFaceStoper.startTimerBt.classList.remove('display');
+                        interFaceStoper.consoleEndTime.classList.remove('display');
                         interFaceStoper.stopTimerBt.classList.add('display');
+                        this.countSet = false;
                         return false;
                     } else {
                         this.h -= 1;
                         this.m += 59;
-                        this.s += 59;
+                        this.s += 60;
                     }
                 } else {
                     this.m -= 1;
-                    this.s += 59;
+                    this.s += 60;
                 }
             }
-            outlook.putInHtml(this.timer, outlook.timerView(this.h,this.m,this.s));
             this.s -= 1;
+            outlook.putInHtml(this.timer, outlook.timerView(this.h,this.m,this.s));
         },
         checkTime : function (el)  { //metoda sprawdza czy to co podał użytkownik jest poprawną liczbą i czy nie równa się zero
             var reg = /^\d+$/,
                 marker = true,
                 checkNum = 0;
             el.forEach(function(el) {
+                checkNum += +(el);
                 if(!(reg.test(el) || el == '')) 
                    marker = false;
             })
-            return (marker);
+            return (marker && checkNum != 0);
         },
         getTime : function () {            
             var time = [];
@@ -211,8 +221,28 @@ var interFaceStoper = {
             }
             return time;
         },
-        test : function () {
-            console.log(this.h,this.m,this.s);
+        resetEveryThing : function () {
+            this.stop();
+            this.h = 0;
+            this.m = 0;
+            this.s = 0;
+            outlook.putInHtml(this.timer, outlook.timerView(this.h,this.m,this.s));
+            this.countSet = false;
+            
+        },
+        alarm : function () {
+            var alarm = new Audio('sound/alarm1.mp3'),
+                that = this;
+            interFaceStoper.stopAlarmBt.addEventListener('click', function () {
+                alarm.pause();
+                that.stopAlarm();
+            });
+            alarm.play();
+            setTimeout(this.stopAlarm, 8000);
+        },
+        stopAlarm : function (alarm) {
+            interFaceStoper.consoleEndTime.classList.add('display');
+            console.log('')
         }
     };
 
