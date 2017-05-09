@@ -3,9 +3,8 @@ html {
     padding: 0;
     text-align: center;
 }
-text {
-    padding: 0;
-    margin: 0;
+input:focus {
+    outline: none;
 }
 h1 {
     margin: 50px;
@@ -100,7 +99,6 @@ button:active {
     margin: 0 auto;
     background-color: #594bc3;
     border: 3px black solid ;
-    color: #000000;
     text-align: left;
     font-size: 30px;
 }
@@ -148,38 +146,6 @@ button:active {
     font-size: 18px;
     font-weight: 800;
 }
-.timeLoad input:focus {
-    outline: none;
-}
-.napBt{
-    width: 100px;
-    height: 30px;
-    padding: 0;
-    border-radius: 15px;
-    background-color: #800080;
-    position: absolute;
-    bottom: 5px;
-    left: 40px;
-    font-size: 15px;
-}
-.stopSound {
-    width: 30px;
-    height: 30px;
-    border-radius: 50px;
-    background-color: #db1100;
-    position: absolute;
-    bottom: 5px;
-    left: 0px;
-}
-.stopSound:before {
-    content: '';
-    width: 15px;
-    height: 15px;
-    background-color: #ffffff;
-    position: absolute;
-    top: 6.5px;
-    left: 6.5px;
-}
 .alarmModal {
     height: 200px;
     width: 300px;
@@ -190,11 +156,45 @@ button:active {
     top: 100px;
     left: 165px
 }
-.alarmModal .closeBt {
-    bottom: 5px;
-    right: 0;
-}
 .alarmModal p {
     padding: 30px;
     background-color: #dd0000;
+}
+.alertControl {
+    height: 40px;
+    padding: 5px;
+    position: relative;
+    text-align: left;
+}
+.alarmBt {
+    width: 60px;
+    height: 40px;
+    border-radius: 15px;
+    font-size: 15px;
+}
+.napBt{
+    display: inline-block;
+    background-color: #800080;
+}
+.stopSound {
+    background-color: #db1100;
+    position: relative;
+}
+.stopSound:before {
+    content: '';
+    width: 25px;
+    height: 25px;
+    background-color: #ffffff;
+    position: absolute;
+    top: 7.5px;
+    left: 17.5px;
+}
+.napIn {
+    width: 50px;
+    height: 40px;
+    border: none;
+    box-sizing: border-box;
+    background-color: #7103c1;
+    font-size: 15px;
+    text-align: center;
 }

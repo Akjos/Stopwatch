@@ -137,8 +137,7 @@ var interFaceStoper = {
     startTimerBt: document.getElementById('startTimer'),
     stopTimerBt: document.getElementById('stopTimer'),
     resetBt: document.getElementById('resetTimer'),
-    timeLoading: document.getElementById('timeLoad'),
-    tabTime: document.getElementsByTagName('input'),
+    tabTime: document.getElementById('timeLoad').getElementsByTagName('input'),
     consoleEndTime: document.getElementById('consoleEndTime'),
     stopAlarmBt: document.getElementById('stopSound'),
     init : function () {
@@ -146,6 +145,7 @@ var interFaceStoper = {
         this.resetBt.addEventListener('click', function () { stoper.resetEveryThing();});
         this.startTimerBt.addEventListener('click', function () { stoper.start();});
         this.stopTimerBt.addEventListener('click', function () { stoper.stop();});
+        this.stopAlarmBt.addEventListener('click', function () { alarm.stopAlarm();});
     }
 },
     stoper = {
@@ -183,7 +183,7 @@ var interFaceStoper = {
                 if(this.m == 0){
                     if(this.h == 0){
                         clearInterval(this.clear);
-                        this.alarm();
+                        alarm.playAlarm();
                         interFaceStoper.startTimerBt.classList.remove('display');
                         interFaceStoper.consoleEndTime.classList.remove('display');
                         interFaceStoper.stopTimerBt.classList.add('display');
@@ -229,21 +229,26 @@ var interFaceStoper = {
             outlook.putInHtml(this.timer, outlook.timerView(this.h,this.m,this.s));
             this.countSet = false;
             
-        },
-        alarm : function () {
-            var alarm = new Audio('sound/alarm1.mp3'),
-                that = this;
-            interFaceStoper.stopAlarmBt.addEventListener('click', function () {
-                alarm.pause();
-                that.stopAlarm();
-            });
-            alarm.play();
-            setTimeout(this.stopAlarm, 8000);
-        },
-        stopAlarm : function (alarm) {
-            interFaceStoper.consoleEndTime.classList.add('display');
-            console.log('')
         }
-    };
+    },
+        alarm = {
+            alarmMarker: false,
+            playAlarm : function () {
+                this.soundAlarm[0].play();
+                this.alarmMarker = setTimeout(this.alarmOf, 8000);
+            },
+            stopAlarm : function () {
+                this.soundAlarm[0].pause();
+                clearTimeout(this.alarmMarker);
+                this.soundAlarm[0].currentTime = 0;
+                this.alarmOf();
+            },
+            alarmOf : function () {
+                interFaceStoper.consoleEndTime.classList.add('display');
+            },
+            soundAlarm: [
+                new Audio('sound/alarm1.mp3')
+            ]
+        };
 
-interFaceStoper.init();
+document.addEventListener('onload', interFaceStoper.init());

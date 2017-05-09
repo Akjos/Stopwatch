@@ -34,9 +34,12 @@
                         <p id="meterText">00:00:00</p>
                         <div id="consoleEndTime" class="alarmModal display">
                             <p>Allert</p>
-                            <button id="stopSound" class="stopSound"></button>
-                            <button class="napBt">+ 5 min</button>
-                            <button class="closeBt"></button>
+                            <div class="alertControl">
+                               <button id="stopSound" class="stopSound alarmBt">st</button> <!-- znaleść rozwiązania i dowiedzieć się dlaczego (st)-->
+                                <button class="napBt alarmBt">Nap</button>
+                                <input type="text" placeholder="min" id="getNap" class="napIn">
+                                <button class="closeBt"></button>
+                            </div>
                         </div>
                     </div>
                     <button id="stopTimer" class="mainBt display stopBt">Stop</button>
@@ -53,6 +56,6 @@
             </div>
         </div>
     </body>
-<!--    <script src="dontStop.js"></script>-->
+    <script src="dontStop.js"></script>
     <script src="code.js"></script>
 </html>
