@@ -140,12 +140,15 @@ var interFaceStoper = {
     tabTime: document.getElementById('timeLoad').getElementsByTagName('input'),
     consoleEndTime: document.getElementById('consoleEndTime'),
     stopAlarmBt: document.getElementById('stopSound'),
+    napBt: document.getElementById('napBt'),
+    napTime: document.getElementById('getNap'),
     init : function () {
         this.setTimeBt.addEventListener('click', function () { stoper.setTime();});
         this.resetBt.addEventListener('click', function () { stoper.resetEveryThing();});
         this.startTimerBt.addEventListener('click', function () { stoper.start();});
         this.stopTimerBt.addEventListener('click', function () { stoper.stop();});
         this.stopAlarmBt.addEventListener('click', function () { alarm.stopAlarm();});
+        this.napBt.addEventListener('click', function () { alarm.setNap();});
     }
 },
     stoper = {
@@ -202,7 +205,7 @@ var interFaceStoper = {
             this.s -= 1;
             outlook.putInHtml(this.timer, outlook.timerView(this.h,this.m,this.s));
         },
-        checkTime : function (el)  { //metoda sprawdza czy to co podał użytkownik jest poprawną liczbą i czy nie równa się zero
+        checkTime : function (el)  { //metoda sprawdza czy to co podał użytkownik jest poprawną liczbą i czy nie równa się zero rozdzielić to aby można było użyć sprawdzania również w drzemce 
             var reg = /^\d+$/,
                 marker = true,
                 checkNum = 0;
@@ -245,6 +248,13 @@ var interFaceStoper = {
             },
             alarmOf : function () {
                 interFaceStoper.consoleEndTime.classList.add('display');
+            },
+            setNap : function () {
+                stoper.m = interFaceStoper.napTime.value;
+                interFaceStoper.napTime.value = '';
+                this.stopAlarm();
+                stoper.countSet = true;
+                stoper.start();
             },
             soundAlarm: [
                 new Audio('sound/alarm1.mp3')

@@ -29,15 +29,25 @@
             </div>
             <div id="tab1" class="page display">
                 <h2>Timer</h2>
+                <button class="setSound"></button>
+                <div class="soundWrap">
+                    <label><input type="radio" name="sound">Audio 1</label>
+                    <label><input type="radio" name="sound">Audio 2</label>
+                    <label><input type="radio" name="sound">Audio 3</label>
+                </div>
                 <div class="stoper">
                     <div>
                         <p id="meterText">00:00:00</p>
-                        <div id="consoleEndTime" class="alarmModal display">
+                        <div id="consoleEndTime" class="alarmModal ">
                             <p>Allert</p>
                             <div class="alertControl">
                                <button id="stopSound" class="stopSound alarmBt">st</button> <!-- znaleść rozwiązania i dowiedzieć się dlaczego (st)-->
-                                <button class="napBt alarmBt">Nap</button>
-                                <input type="text" placeholder="min" id="getNap" class="napIn">
+                                <button id="napBt" class="napBt alarmBt">Nap</button>
+                                <select id="getNap" class="napIn">
+                                    <option value = "5">05 min</option>
+                                    <option value = "10">10 min</option>
+                                    <option value = "15">15 min</option>
+                                </select>
                                 <button class="closeBt"></button>
                             </div>
                         </div>
