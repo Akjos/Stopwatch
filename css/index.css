@@ -204,9 +204,20 @@ button:active {
     position: absolute;
     top: 10px;
     right: 10px;
+    background: #ffffff;
     z-index: 1;
 }
-
+.setSound:before {
+    content: "";
+    width: 7px;
+    height: 7px;
+    position: absolute;
+    top: 5px;
+    left:0;
+    border: 7px solid rgb(255, 255, 255);
+    border-right: 10px solid #444444;
+    background-color: #444444;
+}
 .soundWrap {
     width: 125px;
     padding-top: 40px;

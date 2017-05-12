@@ -29,16 +29,16 @@
             </div>
             <div id="tab1" class="page display">
                 <h2>Timer</h2>
-                <button class="setSound"></button>
-                <div class="soundWrap">
-                    <label><input type="radio" name="sound">Audio 1</label>
+                <button id="soundMenuBt" class="setSound"></button>
+                <div id="soundMenu" class="soundWrap display">
+                    <label><input type="radio" name="sound" checked="checked">Audio 1</label>
                     <label><input type="radio" name="sound">Audio 2</label>
                     <label><input type="radio" name="sound">Audio 3</label>
                 </div>
                 <div class="stoper">
                     <div>
                         <p id="meterText">00:00:00</p>
-                        <div id="consoleEndTime" class="alarmModal ">
+                        <div id="consoleEndTime" class="alarmModal display">
                             <p>Allert</p>
                             <div class="alertControl">
                                <button id="stopSound" class="stopSound alarmBt">st</button> <!-- znaleść rozwiązania i dowiedzieć się dlaczego (st)-->

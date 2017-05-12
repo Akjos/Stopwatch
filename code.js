@@ -142,13 +142,24 @@ var interFaceStoper = {
     stopAlarmBt: document.getElementById('stopSound'),
     napBt: document.getElementById('napBt'),
     napTime: document.getElementById('getNap'),
+    soundMenuBt: document.getElementById('soundMenuBt'),
     init : function () {
+        var that = this;
         this.setTimeBt.addEventListener('click', function () { stoper.setTime();});
         this.resetBt.addEventListener('click', function () { stoper.resetEveryThing();});
         this.startTimerBt.addEventListener('click', function () { stoper.start();});
         this.stopTimerBt.addEventListener('click', function () { stoper.stop();});
         this.stopAlarmBt.addEventListener('click', function () { alarm.stopAlarm();});
         this.napBt.addEventListener('click', function () { alarm.setNap();});
+        this.soundMenuBt.addEventListener('click', function() { that.onOffMenuSound(); });
+    },
+    onOffMenuSound : function () {
+        var menu = document.getElementById('soundMenu'),
+            reg = /display/;
+        if(reg.test(menu.classList.value))
+            menu.classList.remove('display');
+        else
+            menu.classList.add('display');
     }
 },
     stoper = {
