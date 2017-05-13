@@ -143,15 +143,21 @@ var interFaceStoper = {
     napBt: document.getElementById('napBt'),
     napTime: document.getElementById('getNap'),
     soundMenuBt: document.getElementById('soundMenuBt'),
+    soundMenu: document.getElementById('soundMenu').getElementsByTagName('input'),
     init : function () {
         var that = this;
         this.setTimeBt.addEventListener('click', function () { stoper.setTime();});
         this.resetBt.addEventListener('click', function () { stoper.resetEveryThing();});
         this.startTimerBt.addEventListener('click', function () { stoper.start();});
         this.stopTimerBt.addEventListener('click', function () { stoper.stop();});
-        this.stopAlarmBt.addEventListener('click', function () { alarm.stopAlarm();});
+        this.stopAlarmBt.addEventListener('click', function () { alarm.stopAlarm(alarm.setSound);});
         this.napBt.addEventListener('click', function () { alarm.setNap();});
         this.soundMenuBt.addEventListener('click', function() { that.onOffMenuSound(); });
+        for(var i = 0; i < this.soundMenu.length;i++) {
+            this.soundMenu[i].addEventListener('click', function () {
+                alarm.setSound = this.value;
+            })
+        }
     },
     onOffMenuSound : function () {
         var menu = document.getElementById('soundMenu'),
@@ -197,7 +203,7 @@ var interFaceStoper = {
                 if(this.m == 0){
                     if(this.h == 0){
                         clearInterval(this.clear);
-                        alarm.playAlarm();
+                        alarm.playAlarm(alarm.setSound);
                         interFaceStoper.startTimerBt.classList.remove('display');
                         interFaceStoper.consoleEndTime.classList.remove('display');
                         interFaceStoper.stopTimerBt.classList.add('display');
@@ -216,7 +222,7 @@ var interFaceStoper = {
             this.s -= 1;
             outlook.putInHtml(this.timer, outlook.timerView(this.h,this.m,this.s));
         },
-        checkTime : function (el)  { //metoda sprawdza czy to co podał użytkownik jest poprawną liczbą i czy nie równa się zero rozdzielić to aby można było użyć sprawdzania również w drzemce 
+        checkTime : function (el)  { //metoda sprawdza czy to co podał użytkownik jest poprawną liczbą i czy nie równa się zero
             var reg = /^\d+$/,
                 marker = true,
                 checkNum = 0;
@@ -247,28 +253,34 @@ var interFaceStoper = {
     },
         alarm = {
             alarmMarker: false,
-            playAlarm : function () {
-                this.soundAlarm[0].play();
-                this.alarmMarker = setTimeout(this.alarmOf, 8000);
+            setSound: 1,
+            select : function (ev) {
+              this.setSound = ev;  
             },
-            stopAlarm : function () {
-                this.soundAlarm[0].pause();
+            playAlarm : function (sound) {
+                this.soundAlarm[sound].play();
+                this.alarmMarker = setTimeout(this.alarmOf, 5000);
+            },
+            stopAlarm : function (sound) {
+                this.soundAlarm[sound].pause();
                 clearTimeout(this.alarmMarker);
-                this.soundAlarm[0].currentTime = 0;
-                this.alarmOf();
+                this.soundAlarm[sound].currentTime = 0;
+                interFaceStoper.consoleEndTime.classList.add('display');
             },
             alarmOf : function () {
-                interFaceStoper.consoleEndTime.classList.add('display');
+                alarm.stopAlarm(alarm.setSound); //poprawić ten szajs bo to szajs
             },
             setNap : function () {
                 stoper.m = interFaceStoper.napTime.value;
                 interFaceStoper.napTime.value = '';
-                this.stopAlarm();
+                this.stopAlarm(this.setSound);
                 stoper.countSet = true;
                 stoper.start();
             },
             soundAlarm: [
-                new Audio('sound/alarm1.mp3')
+                new Audio('sound/alarm_1.mp3'),
+                new Audio('sound/alarm_2.mp3'),
+                new Audio('sound/alarm_3.mp3'),
             ]
         };
 
