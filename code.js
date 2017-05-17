@@ -153,11 +153,6 @@ var interFaceStoper = {
         this.stopAlarmBt.addEventListener('click', function () { alarm.stopAlarm(alarm.setSound);});
         this.napBt.addEventListener('click', function () { alarm.setNap();});
         this.soundMenuBt.addEventListener('click', function() { that.onOffMenuSound(); });
-        for(var i = 0; i < this.soundMenu.length;i++) {
-            this.soundMenu[i].addEventListener('click', function () {
-                alarm.setSound = this.value;
-            })
-        }
     },
     onOffMenuSound : function () {
         var menu = document.getElementById('soundMenu'),
@@ -203,7 +198,7 @@ var interFaceStoper = {
                 if(this.m == 0){
                     if(this.h == 0){
                         clearInterval(this.clear);
-                        alarm.playAlarm(alarm.setSound);
+                        alarm.playAlarm();
                         interFaceStoper.startTimerBt.classList.remove('display');
                         interFaceStoper.consoleEndTime.classList.remove('display');
                         interFaceStoper.stopTimerBt.classList.add('display');
@@ -253,13 +248,18 @@ var interFaceStoper = {
     },
         alarm = {
             alarmMarker: false,
-            setSound: 1,
-            select : function (ev) {
-              this.setSound = ev;  
+            setSound: 0,
+            checkWhichSound : function () {
+                for(var i = 0;i < interFaceStoper.soundMenu.length;i++) {
+                    if(interFaceStoper.soundMenu[i].checked)
+                        return i;
+                }
             },
-            playAlarm : function (sound) {
-                this.soundAlarm[sound].play();
+            playAlarm : function () {
+                this.setSound = this.checkWhichSound();
+                this.soundAlarm[this.setSound].play();
                 this.alarmMarker = setTimeout(this.alarmOf, 5000);
+                console.log(this.checkWhichSound());
             },
             stopAlarm : function (sound) {
                 this.soundAlarm[sound].pause();
@@ -272,7 +272,6 @@ var interFaceStoper = {
             },
             setNap : function () {
                 stoper.m = interFaceStoper.napTime.value;
-                interFaceStoper.napTime.value = '';
                 this.stopAlarm(this.setSound);
                 stoper.countSet = true;
                 stoper.start();

@@ -176,10 +176,7 @@ button:active {
     display: inline-block;
     background-color: #800080;
 }
-.stopSound {
-    background-color: #db1100;
-    position: relative;
-}
+
 .stopSound:before {
     content: '';
     width: 25px;
